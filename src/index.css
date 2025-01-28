@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
+:root {
   --font-family: "Inter", sans-serif;
   --second-family: "Roboto", sans-serif;
-} */
+}
 
 body {
   font-family: var(--font-family);
@@ -44,6 +44,7 @@ body {
       0 -0.83em 0 -0.46em,
       0 -0.83em 0 -0.477em;
   }
+
   5%,
   95% {
     box-shadow:
@@ -53,6 +54,7 @@ body {
       0 -0.83em 0 -0.46em,
       0 -0.83em 0 -0.477em;
   }
+
   10%,
   59% {
     box-shadow:
@@ -62,6 +64,7 @@ body {
       -0.256em -0.789em 0 -0.46em,
       -0.297em -0.775em 0 -0.477em;
   }
+
   20% {
     box-shadow:
       0 -0.83em 0 -0.4em,
@@ -70,6 +73,7 @@ body {
       -0.671em -0.488em 0 -0.46em,
       -0.749em -0.34em 0 -0.477em;
   }
+
   38% {
     box-shadow:
       0 -0.83em 0 -0.4em,
@@ -78,6 +82,7 @@ body {
       -0.775em -0.297em 0 -0.46em,
       -0.82em -0.09em 0 -0.477em;
   }
+
   100% {
     box-shadow:
       0 -0.83em 0 -0.4em,
@@ -92,6 +97,7 @@ body {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

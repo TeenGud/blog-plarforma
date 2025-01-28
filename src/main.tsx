@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+// import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -9,8 +9,10 @@ import { SignUpPage } from './routes/SignUpPage.tsx';
 import { SignInPage } from './routes/SignInPage.tsx';
 import { EditProfilePage } from './routes/EditProfilePage.tsx';
 import { CreateNewArticlePage } from './routes/CreateNewArticlePage.tsx';
-import { EditArticlePage } from './routes/EditArticlePage.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Provider } from 'react-redux';
+import { store } from './store/store.ts';
+import { EditArticlePage } from './routes/EditArticlePage.tsx';
 
 const queryClient = new QueryClient();
 
@@ -55,9 +57,9 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  </StrictMode>
-);
+
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </Provider>)
