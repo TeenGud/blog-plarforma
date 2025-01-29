@@ -29,13 +29,13 @@ export const HomePage = () => {
     setPage(page);
     setSearchParams({ page: String(page) });
   };
+  if (visited) {
+    window.location.reload()
+    localStorage.removeItem("singlePostPageVisited")
+  }
   if (isPending) return <span className="loader flex items-center justify-center mt-10"></span>;
 
   if (error) return <span className="mt-4 ml-5 font-semibold text-2xl">An error has occurated: {error.message}</span>;
-  if (visited) {
-      window.location.reload()
-      localStorage.removeItem("singlePostPageVisited")
-  }
 
   return (
     <div className="flex flex-col items-center">
