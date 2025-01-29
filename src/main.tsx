@@ -1,7 +1,7 @@
 // import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout.tsx';
 import { HomePage } from './routes/HomePage.tsx';
 import { SinglePostPage } from './routes/SinglePostPage.tsx';
@@ -17,7 +17,7 @@ import { PrivateRoute } from './routes/PrivateRoute.tsx';
 
 const queryClient = new QueryClient();
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     element: <MainLayout />,
     children: [
