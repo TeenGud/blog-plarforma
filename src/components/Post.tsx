@@ -5,9 +5,13 @@ import { Article } from './PostList';
 import { truncateString } from '../tools/truncateString';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
-import { URL_API } from '../constants/constants';
-import { toast } from 'react-toastify';
-import { addBody, addDescription, addTagList, addTitle } from '../store/currentArticleData/currentArticleDataSlice';
+import { formatTime } from '../tools/formatTime';
+import { handleDelete } from '../tools/handleEvents/DeleteTheArticle/handleDelete';
+import { handleClickLike } from '../tools/handleEvents/LikeTheArticle/handleClickLike';
+import { handleDeleteTheArticle } from '../tools/handleEvents/DeleteTheArticle/handleDeleteTheArticle';
+import { handleUnfavoriteTheArticle } from '../tools/handleEvents/LikeTheArticle/handleUnfavoriteTheArticle';
+import { handleFavoriteTheArticle } from '../tools/handleEvents/LikeTheArticle/handleFavoriteTheArticle';
+import { handleEditArticle } from '../tools/handleEvents/EditTheArticle/handleEditArticle';
 
 interface PostInterface {
   classes?: string;
@@ -17,140 +21,132 @@ interface PostInterface {
 }
 
 export const Post = ({ classes, isMyPost, article, singlePost }: PostInterface) => {
-  let fill = "";
+  let fill = '';
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const token = useSelector((state: RootState) => state.user.user.token);
   const [isHidden, setIsHidden] = useState(true);
   const { title, tagList, author, description, favoritesCount, createdAt, favorited, slug, body } = article;
-  console.log(article)
   const [isFavorited, setIsFavorited] = useState(favorited ? favorited : false);
   const [likes, setLikes] = useState(favoritesCount);
-  console.log(favorited)
-  const handleEditArticle = () => {
-    dispatch(addBody(body))
-    dispatch(addDescription(description))
-    dispatch(addTitle(title))
-    dispatch(addTagList(tagList))
-  }
-  const handleDelete = () => {
-    setIsHidden(false);
-  };
-  const handleDeleteFull = () => {
-    handleDeleteTheArticle()
-  }
-  const handleClickLike = (event: Event) => {
-    event.preventDefault()
-    if (isFavorited) {
-      handleUnfavoriteTheArticle()
-    } else {
-      handleFavoriteTheArticle()
-    }
-  }
-  const deleteTheArticle = async (slug: string) => {
-    const rawResponse = await fetch(`${URL_API}/articles/${slug}`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-    });
-    const content = await rawResponse.json()
-    return content
-  }
-  const favoriteTheArticle = async (slug: string) => {
-    const rawResponse = await fetch(`${URL_API}/articles/${slug}/favorite`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-    });
-    const content = await rawResponse.json()
-    return content
-  }
-  const unfavoriteTheArticle = async (slug: string) => {
-    const rawResponse = await fetch(`${URL_API}/articles/${slug}/favorite`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        "Authorization": `Token ${localStorage.getItem("token")}`
-      },
-    });
-    const content = await rawResponse.json()
-    return content
-  }
-  const handleDeleteTheArticle = async () => {
-    try {
-      navigate("/")
-      const data = await deleteTheArticle(article.slug);
-      console.log(data)
-      if (data?.errors) {
-        let errorMessage = "";
-        for (const error in data.errors) {
-          errorMessage += `${error} ${data.errors[error]}\n`
-        }
-        return toast.error(errorMessage)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const handleUnfavoriteTheArticle = async () => {
-    try {
-      const data = await unfavoriteTheArticle(article.slug);
-      console.log(data)
-      if (data?.article) {
-        setIsFavorited(false)
-        setLikes(prev => prev - 1)
-        window.location.reload();
-        // return toast.success("Account created! Now log in")
-      } else if (data?.errors) {
-        let errorMessage = "";
-        for (const error in data.errors) {
-          errorMessage += `${error} ${data.errors[error]}\n`
-        }
-        return toast.error(errorMessage)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const handleFavoriteTheArticle = async () => {
-    try {
-      const data = await favoriteTheArticle(article.slug);
-      console.log(data)
-      if (data?.article) {
-        setIsFavorited(true)
-        setLikes(prev => prev + 1)
-        window.location.reload();
-        // return toast.success("Account created! Now log in")
-      } else if (data?.errors) {
-        let errorMessage = "";
-        for (const error in data.errors) {
-          errorMessage += `${error} ${data.errors[error]}\n`
-        }
-        return toast.error(errorMessage)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+
+  // const deleteTheArticle = async (slug: string) => {
+  //   const rawResponse = await fetch(`${URL_API}/articles/${slug}`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json',
+  //       "Authorization": `Token ${localStorage.getItem("token")}`
+  //     },
+  //   });
+  //   const content = await rawResponse.json()
+  //   return content
+  // }
+  // const favoriteTheArticle = async (slug: string) => {
+  //   const rawResponse = await fetch(`${URL_API}/articles/${slug}/favorite`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json',
+  //       "Authorization": `Token ${localStorage.getItem("token")}`
+  //     },
+  //   });
+  //   const content = await rawResponse.json()
+  //   return content
+  // }
+  // const unfavoriteTheArticle = async (slug: string) => {
+  //   const rawResponse = await fetch(`${URL_API}/articles/${slug}/favorite`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json',
+  //       "Authorization": `Token ${localStorage.getItem("token")}`
+  //     },
+  //   });
+  //   const content = await rawResponse.json()
+  //   return content
+  // }
+  // const handleDeleteTheArticle = async () => {
+  //   try {
+  //     navigate("/")
+  //     const data = await deleteTheArticle(article.slug);
+  //     console.log(data)
+  //     if (data?.errors) {
+  //       let errorMessage = "";
+  //       for (const error in data.errors) {
+  //         errorMessage += `${error} ${data.errors[error]}\n`
+  //       }
+  //       return toast.error(errorMessage)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  // const handleUnfavoriteTheArticle = async () => {
+  //   try {
+  //     const data = await unfavoriteTheArticle(article.slug);
+  //     console.log(data)
+  //     if (data?.article) {
+  //       setIsFavorited(false)
+  //       setLikes(prev => prev - 1)
+  //       window.location.reload();
+  //       // return toast.success("Account created! Now log in")
+  //     } else if (data?.errors) {
+  //       let errorMessage = "";
+  //       for (const error in data.errors) {
+  //         errorMessage += `${error} ${data.errors[error]}\n`
+  //       }
+  //       return toast.error(errorMessage)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  // const handleFavoriteTheArticle = async () => {
+  //   try {
+  //     const data = await favoriteTheArticle(article.slug);
+  //     console.log(data)
+  //     if (data?.article) {
+  //       setIsFavorited(true)
+  //       setLikes(prev => prev + 1)
+  //       window.location.reload();
+  //       // return toast.success("Account created! Now log in")
+  //     } else if (data?.errors) {
+  //       let errorMessage = "";
+  //       for (const error in data.errors) {
+  //         errorMessage += `${error} ${data.errors[error]}\n`
+  //       }
+  //       return toast.error(errorMessage)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
   if (singlePost) {
-    fill = favorited ? "red" : "";
-  }
-  else if (!singlePost) {
-    fill = isFavorited ? "red" : "";
+    fill = favorited ? 'red' : '';
+  } else if (!singlePost) {
+    fill = isFavorited ? 'red' : '';
   }
   return (
     <li className={`${classes} p-2 flex items-start justify-between h-[150px] cursor-pointer bg-white`}>
       <div className="max-w-[682px] flex flex-col gap-2">
         <div className="flex gap-3 items-center">
           <h3 className="text-blue-600 text-xl m-0">{truncateString(title, 60)}</h3>
-          <button className="flex gap-1 items-center" disabled={!token} onClick={handleClickLike}>
+          <button
+            className="flex gap-1 items-center"
+            disabled={!token}
+            onClick={(event: Event) =>
+              handleClickLike(
+                event,
+                isFavorited,
+                handleUnfavoriteTheArticle,
+                handleFavoriteTheArticle,
+                article.slug,
+                setIsFavorited as () => void,
+                setLikes as () => void
+              )
+            }
+          >
             <svg
               className="hover:fill-red-600 transition-colors"
               width="16"
@@ -183,14 +179,23 @@ export const Post = ({ classes, isMyPost, article, singlePost }: PostInterface) 
         <div className="flex gap-2">
           <div className="flex flex-col items-center">
             <span>{author.username}</span>
-            <span className="text-sm font-light">{createdAt}</span>
+            <span className="text-sm font-light">{formatTime(createdAt)}</span>
           </div>
           <img src={author.image} alt="avatar" height={46} width={46} />
         </div>
         {isMyPost && (
           <div className="flex gap-2 mt-3 relative">
-            <Button w={78} h={30} text="Delete" classes="text-red-600 border-red-600" onClick={handleDelete} />
-            <Link to={`/edit-article/${slug}`} onClick={handleEditArticle}>
+            <Button
+              w={78}
+              h={30}
+              text="Delete"
+              classes="text-red-600 border-red-600"
+              onClick={() => handleDelete(setIsHidden)}
+            />
+            <Link
+              to={`/articles/${slug}/edit`}
+              onClick={() => handleEditArticle(dispatch, body, description, title, tagList)}
+            >
               <button className="rounded w-[78px] h-[30px] p-2 text-green-600 border-green-600 border-[1px] flex items-center justify-center hover:text-green-800 transition-colors">
                 Edit
               </button>
@@ -209,7 +214,13 @@ export const Post = ({ classes, isMyPost, article, singlePost }: PostInterface) 
               </div>
               <div className="flex justify-end">
                 <Button w={34} h={24} classes="text-sm" text="No" onClick={() => setIsHidden(true)} />
-                <Button w={40} h={24} classes="bg-blue-500 text-white text-sm" text="Yes" onClick={handleDeleteFull} />
+                <Button
+                  w={40}
+                  h={24}
+                  classes="bg-blue-500 text-white text-sm"
+                  text="Yes"
+                  onClick={() => handleDeleteTheArticle(navigate, article.slug)}
+                />
               </div>
             </div>
           </div>

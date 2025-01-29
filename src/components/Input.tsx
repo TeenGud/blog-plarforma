@@ -19,7 +19,19 @@ interface InputInterface {
   setValue?: (value: string) => void;
   tagId?: string;
 }
-export const Input = ({ h, w, placeholder, id, type, register, registerArgs, border, tagId, value, setValue }: InputInterface) => {
+export const Input = ({
+  h,
+  w,
+  placeholder,
+  id,
+  type,
+  register,
+  registerArgs,
+  border,
+  tagId,
+  value,
+  setValue,
+}: InputInterface) => {
   if (register) {
     return (
       <input

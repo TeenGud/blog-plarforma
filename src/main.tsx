@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Provider } from 'react-redux';
 import { store } from './store/store.ts';
 import { EditArticlePage } from './routes/EditArticlePage.tsx';
+import { PrivateRoute } from './routes/PrivateRoute.tsx';
 
 const queryClient = new QueryClient();
 
@@ -29,37 +30,49 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: '/edit-profile',
-        element: <EditProfilePage />,
+        path: '/profile',
+        element: (
+          <PrivateRoute>
+            <EditProfilePage />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/articles/:slug',
         element: <SinglePostPage />,
       },
       {
-        path: '/login',
+        path: '/sign-in',
         element: <SignInPage />,
       },
       {
-        path: '/register',
+        path: '/sign-up',
         element: <SignUpPage />,
       },
       {
-        path: '/create-article',
-        element: <CreateNewArticlePage />,
+        path: '/new-article',
+        element: (
+          <PrivateRoute>
+            <CreateNewArticlePage />
+          </PrivateRoute>
+        ),
       },
       {
-        path: '/edit-article/:slug',
-        element: <EditArticlePage />,
+        path: '/articles/:slug/edit',
+        element: (
+          <PrivateRoute>
+            <EditArticlePage />
+          </PrivateRoute>
+        ),
       },
     ],
   },
 ]);
 
 createRoot(document.getElementById('root')!).render(
-
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </Provider>)
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  </Provider>
+);

@@ -10,13 +10,12 @@ import { ToastContainer } from 'react-toastify';
 export const fetchArticles = async (offset: number) => {
   const res = await axios.get(`${URL_API}/articles?limit=5`, {
     params: { offset },
-    headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    headers: { Authorization: `Token ${localStorage.getItem('token')}` },
   });
   return res.data;
 };
 
 export const HomePage = () => {
-
   const [searchParams, setSearchParams] = useSearchParams();
   const [offset, setOffset] = useState(searchParams.get('page') ? Number(searchParams.get('page')) * 5 - 5 : 0);
   const [page, setPage] = useState(searchParams.get('page') ? Number(searchParams.get('page')) : 1);

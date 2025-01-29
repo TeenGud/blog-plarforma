@@ -24,7 +24,7 @@ export const PostList = ({ articles }: PostListInterface) => {
       {articles.map((article: Article) => {
         return (
           <Link to={`/articles/${article.slug}`} key={article.slug}>
-            <Post classes="w-[941px] shadow-md"  article={article} singlePost={false}/>
+            <Post classes="w-[941px] shadow-md" article={article} singlePost={false} />
           </Link>
         );
       })}
