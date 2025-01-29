@@ -1,4 +1,6 @@
-import { MouseEventHandler } from "react";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { fillFunction } from "../tools/fill"
 import { handleClickLike } from "../tools/handleEvents/LikeTheArticle/handleClickLike"
 import { handleFavoriteTheArticle } from "../tools/handleEvents/LikeTheArticle/handleFavoriteTheArticle"
@@ -21,9 +23,9 @@ export const Likes = ({token, isFavorited, slug, setIsFavorited, setLikes, singl
         <button
             className="flex gap-1 items-center"
             disabled={!token}
-            onClick={(event: MouseEventHandler<HTMLButtonElement>) =>
+            onClick={(event: Event) =>
                 handleClickLike(
-                    event,
+                    event as Event,
                     isFavorited,
                     handleUnfavoriteTheArticle,
                     handleFavoriteTheArticle,

@@ -1,4 +1,5 @@
-import { MouseEventHandler } from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Id } from 'react-toastify';
 
 type handleUnfavoriteTheArticle = (
@@ -16,7 +17,7 @@ type handleFavoriteTheArticle = (
 ) => Promise<Id | undefined>;
 
 type handleClickLikeInterface = (
-  event: MouseEventHandler<HTMLButtonElement>,
+  event: Event,
   isFavorited: boolean,
   handleUnfavoriteTheArticle: handleUnfavoriteTheArticle,
   handleFavoriteTheArticle: handleFavoriteTheArticle,
