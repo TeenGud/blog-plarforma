@@ -22,14 +22,15 @@ export const CreateNewArticlePage = () => {
   const [tagsText, setTagsText] = useState({});
   const [tags, setTags] = useState([
     {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       id: tagId,
       tag: (
+
         <Tag
           tagId={tagId}
-          handleDeleteTag={(e) => handleDeleteTag(e, setTags as (tags: tags) => void, setTagsText)}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          handleDeleteTag={(e) => handleDeleteTag(e, setTags as (tags: tags) => void, setTagsText)} 
           setTagsText={setTagsText as Dispatch<any>}
         />
       ),
@@ -70,9 +71,6 @@ export const CreateNewArticlePage = () => {
       return;
     }
     tagId = uuidv4();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setTags([
       ...tags,
       {
@@ -80,7 +78,10 @@ export const CreateNewArticlePage = () => {
         tag: (
           <Tag
             tagId={tagId}
-            handleDeleteTag={(e) => handleDeleteTag(e, setTags as (tags: tags) => void, setTagsText)}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            handleDeleteTag={(e) => handleDeleteTag(e, setTags as (tags: tags) => void, setTagsText)} 
             setTagsText={setTagsText as Dispatch<any>}
           />
         ),

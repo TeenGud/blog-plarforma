@@ -19,6 +19,7 @@ export const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [offset, setOffset] = useState(searchParams.get('page') ? Number(searchParams.get('page')) * 5 - 5 : 0);
   const [page, setPage] = useState(searchParams.get('page') ? Number(searchParams.get('page')) : 1);
+  const visited = localStorage.getItem("singlePostPageVisited");
   const { isPending, error, data } = useQuery({
     queryKey: ['articles', offset, page],
     queryFn: () => fetchArticles(offset),
@@ -31,8 +32,10 @@ export const HomePage = () => {
   if (isPending) return <span className="loader flex items-center justify-center mt-10"></span>;
 
   if (error) return <span className="mt-4 ml-5 font-semibold text-2xl">An error has occurated: {error.message}</span>;
-
-  console.log(data);
+  if (visited) {
+      window.location.reload()
+      localStorage.removeItem("singlePostPageVisited")
+  }
 
   return (
     <div className="flex flex-col items-center">

@@ -1,6 +1,5 @@
 export const formatTime = (time: string) => {
   const date = time.slice(0, 10);
-  console.log(date);
   const [year, monthNumber, day] = date.split('-');
   let month = monthNumber;
   switch (month) {

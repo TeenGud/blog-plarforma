@@ -4,7 +4,8 @@ import { favoriteTheArticle } from '../../fetch/favoriteTheArticle';
 export const handleFavoriteTheArticle = async (
   slug: string,
   setIsFavorited: (value: boolean) => void,
-  setLikes: (prev: (prev: number) => number) => void
+  setLikes: (prev: (prev: number) => number) => void,
+  singlePost: boolean
 ) => {
   try {
     const data = await favoriteTheArticle(slug);
@@ -12,7 +13,9 @@ export const handleFavoriteTheArticle = async (
     if (data?.article) {
       setIsFavorited(true);
       setLikes((prev) => prev + 1);
-      window.location.reload();
+      if (singlePost) {
+        window.location.reload();
+      }
       // return toast.success("Account created! Now log in")
     } else if (data?.errors) {
       let errorMessage = '';

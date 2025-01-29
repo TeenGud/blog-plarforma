@@ -3,13 +3,15 @@ import { Id } from 'react-toastify';
 type handleUnfavoriteTheArticle = (
   slug: string,
   setIsFavorited: (value: boolean) => void,
-  setLikes: (prev: (prev: number) => number) => void
+  setLikes: (prev: (prev: number) => number) => void,
+  singlePost: boolean,
 ) => Promise<Id | undefined>;
 
 type handleFavoriteTheArticle = (
   slug: string,
   setIsFavorited: (value: boolean) => void,
-  setLikes: (prev: (prev: number) => number) => void
+  setLikes: (prev: (prev: number) => number) => void,
+  singlePost: boolean,
 ) => Promise<Id | undefined>;
 
 type handleClickLikeInterface = (
@@ -19,7 +21,8 @@ type handleClickLikeInterface = (
   handleFavoriteTheArticle: handleFavoriteTheArticle,
   slug: string,
   setIsFavorited: () => void,
-  setLikes: () => void
+  setLikes: () => void,
+  singlePost: boolean
 ) => void;
 
 export const handleClickLike: handleClickLikeInterface = (
@@ -29,12 +32,13 @@ export const handleClickLike: handleClickLikeInterface = (
   handleFavoriteTheArticle,
   slug,
   setIsFavorited,
-  setLikes
+  setLikes,
+  singlePost
 ) => {
   event.preventDefault();
   if (isFavorited) {
-    handleUnfavoriteTheArticle(slug, setIsFavorited, setLikes);
+    handleUnfavoriteTheArticle(slug, setIsFavorited, setLikes, singlePost);
   } else {
-    handleFavoriteTheArticle(slug, setIsFavorited, setLikes);
+    handleFavoriteTheArticle(slug, setIsFavorited, setLikes, singlePost);
   }
 };

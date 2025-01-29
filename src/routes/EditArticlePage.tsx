@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { handleDeleteTag } from '../tools/handleEvents/HandleTags/handleDeleteTag';
 import { updateAnArticle } from '../tools/fetch/updateAnArticle';
+import { Dispatch } from '@reduxjs/toolkit';
 
 interface articleData {
   article: {
@@ -38,8 +39,6 @@ export const EditArticlePage = () => {
   useEffect(() => {
     for (const index in tagList) {
       const tagId = uuidv4() + index;
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       setTags((prev) => [
         ...prev,
         {
@@ -47,8 +46,10 @@ export const EditArticlePage = () => {
           tag: (
             <Tag
               tagId={tagId}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
               handleDeleteTag={(e) => handleDeleteTag(e, setTags as (tags: tags) => void, setTagsText)}
-              setTagsText={setTagsText}
+              setTagsText={setTagsText as Dispatch<any>}
               text={tagList[index]}
             />
           ),
@@ -103,8 +104,6 @@ export const EditArticlePage = () => {
       return;
     }
     const tagId = uuidv4();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     setTags([
       ...tags,
       {
@@ -112,8 +111,10 @@ export const EditArticlePage = () => {
         tag: (
           <Tag
             tagId={tagId}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             handleDeleteTag={(e) => handleDeleteTag(e, setTags as (tags: tags) => void, setTagsText)}
-            setTagsText={setTagsText}
+            setTagsText={setTagsText as Dispatch<any>}
           />
         ),
       },
