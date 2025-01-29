@@ -27,8 +27,8 @@ export const Likes = ({token, isFavorited, slug, setIsFavorited, setLikes, singl
                     handleUnfavoriteTheArticle,
                     handleFavoriteTheArticle,
                     slug,
-                    setIsFavorited as () => void,
-                    setLikes as () => void,
+                    setIsFavorited,
+                    setLikes,
                     singlePost
                 )
             }
