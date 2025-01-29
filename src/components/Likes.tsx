@@ -1,3 +1,4 @@
+import { MouseEventHandler } from "react";
 import { fillFunction } from "../tools/fill"
 import { handleClickLike } from "../tools/handleEvents/LikeTheArticle/handleClickLike"
 import { handleFavoriteTheArticle } from "../tools/handleEvents/LikeTheArticle/handleFavoriteTheArticle"
@@ -20,7 +21,7 @@ export const Likes = ({token, isFavorited, slug, setIsFavorited, setLikes, singl
         <button
             className="flex gap-1 items-center"
             disabled={!token}
-            onClick={(event: Event) =>
+            onClick={(event: MouseEventHandler<HTMLButtonElement>) =>
                 handleClickLike(
                     event,
                     isFavorited,

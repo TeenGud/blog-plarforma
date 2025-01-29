@@ -1,3 +1,4 @@
+import { MouseEventHandler } from 'react';
 import { Id } from 'react-toastify';
 
 type handleUnfavoriteTheArticle = (
@@ -15,7 +16,7 @@ type handleFavoriteTheArticle = (
 ) => Promise<Id | undefined>;
 
 type handleClickLikeInterface = (
-  event: Event,
+  event: MouseEventHandler<HTMLButtonElement>,
   isFavorited: boolean,
   handleUnfavoriteTheArticle: handleUnfavoriteTheArticle,
   handleFavoriteTheArticle: handleFavoriteTheArticle,
